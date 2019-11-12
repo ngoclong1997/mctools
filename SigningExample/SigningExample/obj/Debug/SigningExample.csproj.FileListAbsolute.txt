@@ -1,0 +1,9 @@
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\bin\Debug\SigningExample.exe.config
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\bin\Debug\SigningExample.exe
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\bin\Debug\SigningExample.pdb
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.csprojResolveAssemblyReference.cache
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.Form1.resources
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.Properties.Resources.resources
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.csproj.GenerateResource.Cache
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.exe
+c:\users\pc1\documents\visual studio 2013\Projects\SigningExample\SigningExample\obj\Debug\SigningExample.pdb

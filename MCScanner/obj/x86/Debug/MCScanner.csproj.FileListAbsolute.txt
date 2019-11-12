@@ -1,0 +1,15 @@
+C:\Users\PC1\Downloads\serverScan-master\obj\x86\Debug\Interop.WIA.dll
+C:\Users\PC1\Downloads\serverScan-master\obj\x86\Debug\MCScanner.csproj.ResolveComReference.cache
+C:\Users\PC1\Downloads\serverScan-master\obj\x86\Debug\ServerScan.exe
+C:\Users\PC1\Downloads\serverScan-master\obj\x86\Debug\ServerScan.pdb
+D:\graduation thesis\MCScanner\obj\x86\Debug\Interop.WIA.dll
+D:\graduation thesis\MCScanner\obj\x86\Debug\MCScanner.csproj.ResolveComReference.cache
+D:\graduation thesis\MCScanner\obj\x86\Debug\ServerScan.exe
+D:\graduation thesis\MCScanner\obj\x86\Debug\ServerScan.pdb
+D:\graduation thesis\MCScanner\bin\Debug\ServerScan.exe
+D:\graduation thesis\MCScanner\bin\Debug\ServerScan.pdb
+D:\graduation thesis\MCScanner\obj\x86\Debug\MCScanner.csprojResolveAssemblyReference.cache
+D:\graduation thesis\MCScanner\obj\x86\Debug\ServerScan.Main.resources
+D:\graduation thesis\MCScanner\obj\x86\Debug\ServerScan.Properties.Resources.resources
+D:\graduation thesis\MCScanner\obj\x86\Debug\ServerScan.SelectScanner.resources
+D:\graduation thesis\MCScanner\obj\x86\Debug\MCScanner.csproj.GenerateResource.Cache
