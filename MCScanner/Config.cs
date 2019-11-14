@@ -11,12 +11,12 @@ namespace ServerScan
         public String           ScannerID           = "";
         public String           ScannerName         = "";
         public String           SavePath            = "";
-        public int              ScanDpi             = 200;
-        public int              ScanColor           = 4;
-        public bool             ScanADF             = false;
+        public int              ScanDpi             = 300;
+        public int              ScanColor           = 2;
+        public bool             ScanADF             = true;
         public bool             ScanTryFlatbed      = false;
         public bool             StartMinimized      = false;
-        public bool             ShowErrors          = false;
+        public bool             ShowErrors          = true;
 
         const String file = "config.xml";
 

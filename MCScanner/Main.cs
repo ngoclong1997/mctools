@@ -55,6 +55,13 @@ namespace ServerScan
         {
             List<Image> scanResult = Scan.StartScan();
             images.AddRange(scanResult);
+            for (int i = 0; i < images.Count; i++)
+            {
+                ListBoxImageScanned.Items.Add("Image " + i);
+            }
+            btnContinue.Visible = true;
+            btnDone.Visible = true;
+            btnRestart.Visible = true;
         }
 
         private void bt_path_Click(object sender, EventArgs e)
@@ -86,7 +93,7 @@ namespace ServerScan
                 case "Black & White":
                     Program.config.ScanColor = 4;
                     break;
-                case "Greyscale":
+                case "Grayscale":
                     Program.config.ScanColor = 2;
                     break;
                 case "Color":
@@ -132,12 +139,14 @@ namespace ServerScan
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            Scan.SaveImages(images);   
+            Scan.SaveImages(images);
         }
 
         private void ListBoxImageScanned_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            string curItem = ListBoxImageScanned.SelectedItem.ToString();
+            int index = ListBoxImageScanned.FindString(curItem);
+            pbAnswerImage.Image = images[index];
         }
 
         private void btnRestart_Click(object sender, EventArgs e)

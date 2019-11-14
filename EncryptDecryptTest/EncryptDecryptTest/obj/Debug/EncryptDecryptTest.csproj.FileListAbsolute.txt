@@ -7,3 +7,8 @@ c:\users\pc1\documents\visual studio 2013\Projects\EncryptDecryptTest\EncryptDec
 C:\Users\PC1\documents\visual studio 2013\Projects\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\Interop.WIA.dll
 C:\Users\PC1\documents\visual studio 2013\Projects\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\EncryptDecryptTest.csproj.ResolveComReference.cache
 C:\Users\PC1\Documents\Visual Studio 2013\Projects\EncryptDecryptTest\EncryptDecryptTest\bin\Debug\Interop.WIA.dll
+D:\graduation\mctools\EncryptDecryptTest\EncryptDecryptTest\bin\Debug\EncryptDecryptTest.exe.config
+D:\graduation\mctools\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\Interop.WIA.dll
+D:\graduation\mctools\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\EncryptDecryptTest.csproj.ResolveComReference.cache
+D:\graduation\mctools\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\EncryptDecryptTest.exe
+D:\graduation\mctools\EncryptDecryptTest\EncryptDecryptTest\obj\Debug\EncryptDecryptTest.pdb

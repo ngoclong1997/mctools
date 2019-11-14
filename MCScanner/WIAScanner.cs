@@ -202,10 +202,10 @@ namespace ServerScan
                         SetProperty(prop, 0);
                         break;
                     case 6151: //horizontal exent 
-                        SetProperty(prop, 2338);
+                        SetProperty(prop, (int) 8.29f * settings.dpi);
                         break;
                     case 6152: //vertical extent 
-                        SetProperty(prop, 1653);
+                        SetProperty(prop, (int)11.69f * settings.dpi);
                         break;
                 }
             }
@@ -263,7 +263,7 @@ namespace ServerScan
                     SetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_PAGES, 1);
 
                     //Scan image
-                    ImageFile image = (ImageFile)wiaCommonDialog.ShowTransfer(scan, wiaFormatBMP, false);
+                    ImageFile image = (ImageFile) wiaCommonDialog.ShowTransfer(scan, wiaFormatBMP, false);
 
                     if (image != null)
                     {
@@ -320,8 +320,6 @@ namespace ServerScan
                             System.Threading.Thread.Sleep(2000);
                             break;
 
-                        default:
-                            throw ex;
                     }
                 }
             }
@@ -335,42 +333,32 @@ namespace ServerScan
             DeviceManager manager = new DeviceManager();
             List<Image> images = new List<Image>();
             bool hasMorePages = true;
-            Item scan = null;
 
-            //Acquisition iteration
-            ICommonDialog wiaCommonDialog = new CommonDialog();
+
+            
+
             while (hasMorePages)
             {
-                try
-                {   //Looks like these need to be done for each iteration
-                    SetDeviceHandling(ref device, settings);
-                    scan = device.Items[1] as Item;
-                    SetDeviceProperties(ref device, settings);
-                }
-                catch (Exception)
-                {
-                    throw new Exception("Cannot connect to scanner, please check your device and try again.");
-                }
-
                 Logger.Log("DEBUG: document handling " + GetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_DOCUMENT_HANDLING_SELECT));
                 Logger.Log("DEBUG: feeder status " + GetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_DOCUMENT_HANDLING_STATUS));
-
+                
                 try
                 {
+                    SetDeviceHandling(ref device, settings);
+                    SetDeviceProperties(ref device, settings);
+                    Item item = device.Items[1] as Item;
                     //Scan image
-                    ImageFile image = (ImageFile)wiaCommonDialog.ShowTransfer(scan, wiaFormatBMP, false);
+                    ImageFile image = item.Transfer(wiaFormatBMP);
 
                     if (image != null)
                     {
-                        // convert to byte array
-                        Byte[] imageBytes = (byte[])image.FileData.get_BinaryData();
+                        string fileName = Path.GetTempFileName();
+                        File.Delete(fileName);
+                        image.SaveFile(fileName);
+                        image = null;
 
                         // add file to output list
-                        images.Add(Image.FromStream(new MemoryStream(imageBytes)));
-
-                        //Cleanup
-                        image = null;
-                        imageBytes = null;
+                        images.Add(Image.FromFile(fileName));
                     }
                     else
                     {
@@ -389,7 +377,9 @@ namespace ServerScan
 
                             Logger.Log("ADF has more pages: " + (hasMorePages ? "Yes" : "No"));
                         }
-                        catch { }
+                        catch {
+                            Logger.Log("BLABLA");
+                        }
                     }
                 }
                 catch (System.Runtime.InteropServices.COMException ex)
@@ -414,9 +404,6 @@ namespace ServerScan
                             Logger.Log("Device is busy, retrying in 2s...");
                             System.Threading.Thread.Sleep(2000);
                             break;
-
-                        default:
-                            throw ex;
                     }
                 }
             }

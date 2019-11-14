@@ -159,8 +159,7 @@
             this.combo_color.FormattingEnabled = true;
             this.combo_color.Items.AddRange(new object[] {
             "Color",
-            "Grayscale",
-            "Black & White"});
+            "Grayscale"});
             this.combo_color.Location = new System.Drawing.Point(114, 90);
             this.combo_color.Name = "combo_color";
             this.combo_color.Size = new System.Drawing.Size(282, 21);
@@ -180,12 +179,9 @@
             // 
             this.combo_dpi.FormattingEnabled = true;
             this.combo_dpi.Items.AddRange(new object[] {
-            "100",
+            "75",
             "150",
-            "200",
-            "300",
-            "400",
-            "500"});
+            "300"});
             this.combo_dpi.Location = new System.Drawing.Point(114, 67);
             this.combo_dpi.Name = "combo_dpi";
             this.combo_dpi.Size = new System.Drawing.Size(282, 21);
@@ -242,6 +238,7 @@
             this.pbAnswerImage.Location = new System.Drawing.Point(434, 19);
             this.pbAnswerImage.Name = "pbAnswerImage";
             this.pbAnswerImage.Size = new System.Drawing.Size(560, 632);
+            this.pbAnswerImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pbAnswerImage.TabIndex = 1;
             this.pbAnswerImage.TabStop = false;
             // 
