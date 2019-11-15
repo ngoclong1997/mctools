@@ -1354,3 +1354,7 @@
 13/11/19 5:16:40 PM: Setup device handling
 13/11/19 5:16:40 PM: Setup device properties
 13/11/19 5:16:42 PM: [Error] Paper jam inside the scanner feeder
+
+15/11/19 10:17:14 AM: Application started
+15/11/19 10:17:14 AM: Configuration loaded
+15/11/19 10:17:18 AM: Application closed

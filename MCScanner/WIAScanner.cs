@@ -412,7 +412,6 @@ namespace ServerScan
             return images;
         }
 
-
         private static void SetProperty(Property property, int value)
         {
             IProperty x = (IProperty)property;
