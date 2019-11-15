@@ -1,0 +1,6 @@
+
+15/11/19 10:22:56 AM: Application started
+15/11/19 10:24:49 AM: [Error] Vui lòng chọn thư mục lưu kết quả
+15/11/19 10:25:04 AM: Application closed
+
+15/11/19 10:47:12 AM: Application started

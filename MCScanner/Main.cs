@@ -56,7 +56,7 @@ namespace ServerScan
         {
             //List<Image> scanResult = Scan.StartScan();
             List<Bitmap> scanResult = new List<Bitmap>();
-            string[] filePaths = Directory.GetFiles(@"D:\graduation thesis\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
+            string[] filePaths = Directory.GetFiles(@"D:\graduation\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
             for (int i = 0; i < filePaths.Length; i++)
             {
                 scanResult.Add(new Bitmap(filePaths[i]));
