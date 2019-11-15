@@ -76,7 +76,8 @@
     <Compile Include="EditPersonalInfo.Designer.cs">
       <DependentUpon>EditPersonalInfo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helper.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\SigningHelper.cs" />
     <Compile Include="ImageProcessor\ASProcessor.cs" />
     <Compile Include="ImageProcessor\Circle.cs" />
     <Compile Include="ImageProcessor\CommonImageProcessing.cs" />
@@ -163,6 +164,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\cert.pem" />
     <None Include="Resources\Step1 - Gray.png" />
   </ItemGroup>
   <ItemGroup>

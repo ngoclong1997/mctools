@@ -1,6 +1,7 @@
 ﻿using AnswerSheetProcess;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using MCTools.Helper;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -155,7 +156,7 @@ namespace MCTools
 
         private void createReport()
         {
-            String[,] reportData = Helper.getReport(dgvListStudent, dgvEditing, dgvAnswer);
+            String[,] reportData = CommonHelper.getReport(dgvListStudent, dgvEditing, dgvAnswer);
             Invoker.InvokeIfRequired(dgvReport, new MethodInvoker(() =>
             {
                 fillDataToGridView(dgvReport, reportData);
@@ -175,8 +176,8 @@ namespace MCTools
 
             if (!isCancel)
             {
-                String[,] answerData = Helper.convertListAnswerTo2DArray(answers);
-                String[,] studentData = Helper.convertListStudentTo2DArray(students);
+                String[,] answerData = CommonHelper.convertListAnswerTo2DArray(answers);
+                String[,] studentData = CommonHelper.convertListStudentTo2DArray(students);
 
                 Invoker.InvokeIfRequired(dgvAnswer, new MethodInvoker(() =>
                 {
@@ -224,29 +225,37 @@ namespace MCTools
 
         private void pbStep2_Click(object sender, EventArgs e)
         {
-            using (var fbd = new FolderBrowserDialog())
+            
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            Config cfg = new Config();
+            String path = cfg.Get(Config.ANSWER_SHEET_IMG_PATH, "");
+            if (path != "") {
+                openFileDialog1.InitialDirectory = path;
+            }
+            openFileDialog1.Title = "Chọn danh sách ảnh bài thi";
+            openFileDialog1.CheckFileExists = true;
+            openFileDialog1.CheckPathExists = true;
+            openFileDialog1.DefaultExt = "enc";
+            openFileDialog1.Filter = "enc Files (*.enc)|*.enc";
+            openFileDialog1.FilterIndex = 2;
+            openFileDialog1.RestoreDirectory = true;
+            openFileDialog1.ReadOnlyChecked = true;
+            openFileDialog1.ShowReadOnly = true;
+            
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-
-                Config cfg = new Config();
-
-                String path = cfg.Get(Config.ANSWER_SHEET_IMG_PATH, "");
-                if (path != "")
+                string filePath = openFileDialog1.FileName;
+                byte[] imageBytes = File.ReadAllBytes(filePath);
+                if (SigningHelper.VerifyImages(imageBytes))
                 {
-                    fbd.SelectedPath = path;
-                }
-                DialogResult result = fbd.ShowDialog();
-
-                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
-                {
-                    cfg.Set(Config.ANSWER_SHEET_IMG_PATH, fbd.SelectedPath);
-                    cfg.Save();
-                    string[] files = Directory.GetFiles(fbd.SelectedPath);
-
-                    bgImageProcessing.RunWorkerAsync(files);
-
+                    List<Bitmap> imgs = SigningHelper.GetImagesFromEncryptedBytes(imageBytes);
+                    bgImageProcessing.RunWorkerAsync(imgs);
                     processProgressBar.Visible = true;
                     lbProcessProgressDescription.Visible = true;
-                    
+                }
+                else
+                {
+                    MessageBox.Show("File ảnh bài thi bị lỗi!!");
                 }
             }
         }
@@ -543,21 +552,20 @@ namespace MCTools
 
         private void bgImageProcessing_DoWork(object sender, DoWorkEventArgs e)
         {
-            string[] files = (string[]) e.Argument;
+            List<Bitmap> images = (List<Bitmap>) e.Argument;
 
-            Globals.numberOfAnswerSheet = files.Length;
+            Globals.numberOfAnswerSheet = images.Count;
             int i = 1;
             lstProcessedAS = new List<ProcessedAS>();
-            foreach (string file in files)
+            foreach (Bitmap bmp in images)
             {
-                Bitmap bm = new Bitmap(file);
-                ProcessedAS processedAS = ASProcessor.ProcessAS(bm);
+                ProcessedAS processedAS = ASProcessor.ProcessAS(bmp);
                 lstProcessedAS.Add(processedAS);
-                int percentages = i * 100 / files.Length;
+                int percentages = i * 100 / images.Count;
                 bgImageProcessing.ReportProgress(percentages);
                 i++;
             }
-            String[,] data = Helper.convertListListProcessedAsTo2DArray(lstProcessedAS);
+            String[,] data = CommonHelper.convertListListProcessedAsTo2DArray(lstProcessedAS);
 
             fillDataToGridView(dgvDetected, data);
             fillDataToGridView(dgvEditing, data);

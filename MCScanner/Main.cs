@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -53,7 +54,13 @@ namespace ServerScan
 
         private void bt_startScan_Click(object sender, EventArgs e)
         {
-            List<Image> scanResult = Scan.StartScan();
+            //List<Image> scanResult = Scan.StartScan();
+            List<Bitmap> scanResult = new List<Bitmap>();
+            string[] filePaths = Directory.GetFiles(@"D:\graduation thesis\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
+            for (int i = 0; i < filePaths.Length; i++)
+            {
+                scanResult.Add(new Bitmap(filePaths[i]));
+            }
             images.AddRange(scanResult);
             for (int i = 0; i < images.Count; i++)
             {
@@ -140,6 +147,7 @@ namespace ServerScan
         private void btnDone_Click(object sender, EventArgs e)
         {
             Scan.SaveImages(images);
+            MessageBox.Show("Đã xuất file!!\nĐường dẫn: " + Program.config.SavePath);
         }
 
         private void ListBoxImageScanned_SelectedIndexChanged(object sender, EventArgs e)
