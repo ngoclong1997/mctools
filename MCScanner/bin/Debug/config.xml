@@ -2,7 +2,7 @@
 <Config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ScannerID>{6BDD1FC6-810F-11D0-BEC7-08002BE2092F}\0001</ScannerID>
   <ScannerName>NPIAAC199 (HP LaserJet 400 MFP M425dw)</ScannerName>
-  <SavePath>C:\Users\nguye\OneDrive\Desktop\Ideone.com - Online Compiler and IDE __ C_C++, Java, PHP, Python, Perl and 40+ other compilers and interpreters_files</SavePath>
+  <SavePath>D:\graduation thesis\templates\Testing\OUT</SavePath>
   <ScanDpi>300</ScanDpi>
   <ScanColor>1</ScanColor>
   <ScanADF>true</ScanADF>

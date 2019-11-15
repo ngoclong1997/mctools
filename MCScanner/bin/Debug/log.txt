@@ -1354,3 +1354,19 @@
 13/11/19 5:16:40 PM: Setup device handling
 13/11/19 5:16:40 PM: Setup device properties
 13/11/19 5:16:42 PM: [Error] Paper jam inside the scanner feeder
+
+14/11/19 11:39:24 PM: Application started
+14/11/19 11:39:25 PM: Configuration loaded
+14/11/19 11:39:28 PM: Application closed
+
+14/11/19 11:45:21 PM: Application started
+14/11/19 11:45:21 PM: Configuration loaded
+14/11/19 11:53:24 PM: [Error] Không thể truy cập vào đường dẫn lưu kết quả
+14/11/19 11:53:28 PM: [Error] Thư mục lưu kết quả không được quyền ghi dữ liệu
+14/11/19 11:53:32 PM: Application closed
+
+14/11/19 11:56:37 PM: Application started
+14/11/19 11:56:37 PM: Configuration loaded
+14/11/19 11:57:01 PM: Configuration saved
+14/11/19 11:57:16 PM: Finished scanning 9 files
+14/11/19 11:58:56 PM: Application closed
