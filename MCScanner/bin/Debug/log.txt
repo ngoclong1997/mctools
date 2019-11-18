@@ -4,3 +4,34 @@
 15/11/19 10:25:04 AM: Application closed
 
 15/11/19 10:47:12 AM: Application started
+
+17/11/19 11:27:34 PM: Application started
+
+17/11/19 11:49:06 PM: Application started
+17/11/19 11:49:18 PM: [Error] Vui lòng chọn thư mục lưu kết quả
+17/11/19 11:49:30 PM: Configuration saved
+17/11/19 11:49:41 PM: Application closed
+
+17/11/19 11:54:22 PM: Application started
+17/11/19 11:54:23 PM: Configuration loaded
+18/11/19 12:03:40 AM: Configuration saved
+18/11/19 12:27:41 AM: Application closed
+
+18/11/19 12:36:55 AM: Application started
+18/11/19 12:36:55 AM: Configuration loaded
+18/11/19 12:38:25 AM: Finished scanning 9 files
+
+18/11/19 12:52:40 AM: Application started
+18/11/19 12:52:40 AM: Configuration loaded
+18/11/19 12:52:45 AM: Application closed
+
+18/11/19 12:54:18 AM: Application started
+18/11/19 12:54:18 AM: Configuration loaded
+18/11/19 12:54:23 AM: Finished scanning 9 files
+
+18/11/19 12:56:34 AM: Application started
+18/11/19 12:56:34 AM: Configuration loaded
+18/11/19 12:57:02 AM: Configuration saved
+18/11/19 12:57:10 AM: Configuration saved
+18/11/19 12:57:20 AM: Configuration saved
+18/11/19 12:58:02 AM: Finished scanning 9 files

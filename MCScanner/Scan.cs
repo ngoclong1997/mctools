@@ -18,9 +18,9 @@ namespace ServerScan
 
     class Scan
     {
-        public static List<Image> StartScan()
+        public static List<Bitmap> StartScan()
         {
-            List<Image> result = new List<Image>();
+            List<Bitmap> result = new List<Bitmap>();
             if (Program.config.SavePath == "")
             {
                 Program.ShowError("Vui lòng chọn thư mục lưu kết quả");
@@ -77,18 +77,9 @@ namespace ServerScan
             }
         }
 
-        public static int SaveImages(List<Image> list)
-        {
-            if (!PathWritable(Program.config.SavePath))
-            {
-                Program.ShowError("Đường dẫn lưu kết quả không được phép ghi");
-                return 0;
-            }
-            Logger.Log("Finished scanning " + list.Count + " files");
-            DateTime now = DateTime.Now;
-            ImageHelper.createTif(list, Program.config.SavePath + "\\" + now.ToString("yy_MM_dd-H_mm_ss") + ".tif");
-            return 1;
-        }
+       
+
+        
 
 
     }

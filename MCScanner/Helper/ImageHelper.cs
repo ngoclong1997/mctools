@@ -9,7 +9,7 @@ namespace ServerScan.Helper
 {
     class ImageHelper
     {
-        public static bool createTif(List<Image> bmp, string location)
+        public static bool createTif(List<Bitmap> bmp, string location)
         {
             if (bmp != null)
             {
@@ -85,6 +85,38 @@ namespace ServerScan.Helper
             }
 
             throw new Exception(mimeType + " mime type not found in ImageCodecInfo");
+        }
+
+        private static Boolean PathWritable(String path)
+        {
+            try
+            {
+                System.Security.AccessControl.DirectorySecurity ds = Directory.GetAccessControl(path);
+                return true;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                Program.ShowError("Không thể truy cập vào đường dẫn lưu kết quả");
+                return false;
+            }
+        }
+
+        public static int SaveImages(List<Bitmap> list)
+        {
+            if (!PathWritable(Program.config.SavePath))
+            {
+                Program.ShowError("Đường dẫn lưu kết quả không được phép ghi");
+                return 0;
+            }
+            Logger.Log("Finished scanning " + list.Count + " files");
+            DateTime now = DateTime.Now;
+            File.WriteAllBytes(Program.config.SavePath + "\\SignedImages_" + now.ToString("ddMMyyyyHHmmss") + ".dat", SigningHelper.signImages(list));
+            //ImageHelper.createTif(list, Program.config.SavePath + "\\" + now.ToString("yy_MM_dd-H_mm_ss") + ".tif");
+            return 1;
         }
     }
 }

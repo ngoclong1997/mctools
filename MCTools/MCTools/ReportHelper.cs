@@ -89,10 +89,8 @@ namespace MCTools
                             {
                                 xlWorkSheet.Cells[i + 1 + rowStart, j + 1] = dgv.Rows[i].Cells[j].Value.ToString();
                             }
-                            if (dgv.Rows[i].Cells[j].Value.ToString().Contains("*") || dgv.Rows[i].Cells[j].Value.ToString().Contains("-"))
-                            {
-                                xlWorkSheet.Cells[i + 1 + rowStart, j + 1].Interior.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
-                            }
+                            Color color = dgv.Rows[i].Cells[j].Style.BackColor;
+                            xlWorkSheet.Cells[i + 1 + rowStart, j + 1].Interior.Color = (color != Color.Red && color != Color.SkyBlue ? Color.White : color);
                         }
                     }
                 }

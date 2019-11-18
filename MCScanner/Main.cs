@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ServerScan.Helper;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -10,7 +11,7 @@ namespace ServerScan
 {
     public partial class Main : Form
     {
-        List<Image> images = new List<Image>();
+        List<Bitmap> images = new List<Bitmap>();
         public Main()
         {
             InitializeComponent();
@@ -56,7 +57,7 @@ namespace ServerScan
         {
             //List<Image> scanResult = Scan.StartScan();
             List<Bitmap> scanResult = new List<Bitmap>();
-            string[] filePaths = Directory.GetFiles(@"D:\graduation\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
+            string[] filePaths = Directory.GetFiles(@"D:\graduation thesis\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
             for (int i = 0; i < filePaths.Length; i++)
             {
                 scanResult.Add(new Bitmap(filePaths[i]));
@@ -140,13 +141,13 @@ namespace ServerScan
 
         private void btnContinue_Click(object sender, EventArgs e)
         {
-            List<Image> scanResult = Scan.StartScan();
+            List<Bitmap> scanResult = Scan.StartScan();
             images.AddRange(scanResult);
         }
 
         private void btnDone_Click(object sender, EventArgs e)
         {
-            Scan.SaveImages(images);
+            ImageHelper.SaveImages(images);
             MessageBox.Show("Đã xuất file!!\nĐường dẫn: " + Program.config.SavePath);
         }
 
@@ -161,7 +162,7 @@ namespace ServerScan
         {
             ListBoxImageScanned.Items.Clear();
             images.Clear();
-            List<Image> scanResult = Scan.StartScan();
+            List<Bitmap> scanResult = Scan.StartScan();
             images.AddRange(scanResult);
         }
     }

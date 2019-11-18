@@ -235,8 +235,8 @@ namespace MCTools
             openFileDialog1.Title = "Chọn danh sách ảnh bài thi";
             openFileDialog1.CheckFileExists = true;
             openFileDialog1.CheckPathExists = true;
-            openFileDialog1.DefaultExt = "enc";
-            openFileDialog1.Filter = "enc Files (*.enc)|*.enc";
+            openFileDialog1.Filter = "dat Files (*.dat)|*.dat";
+            openFileDialog1.DefaultExt = "dat";
             openFileDialog1.FilterIndex = 2;
             openFileDialog1.RestoreDirectory = true;
             openFileDialog1.ReadOnlyChecked = true;
@@ -274,14 +274,14 @@ namespace MCTools
                             dgvEditing.Rows[i].Cells[j].Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                             if (dgvEditing.Rows[i].Cells[j].Value.ToString().Equals("*"))
                             {
-                                dgvEditing.Rows[i].Cells[j].Style.BackColor = Color.SkyBlue;
-                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = Color.White;
+                                dgvEditing.Rows[i].Cells[j].Style.BackColor = dgvDetected.Rows[i].Cells[j].Style.BackColor = Color.SkyBlue;
+                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = dgvDetected.Rows[i].Cells[j].Style.ForeColor = Color.White;
                                 errorMessages[i, j] = "Không xác định được đáp án (Không có đáp án nào được tô)";
                             }
                             else if (dgvEditing.Rows[i].Cells[j].Value.ToString().Equals("-"))
                             {
-                                dgvEditing.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = Color.White;
+                                dgvEditing.Rows[i].Cells[j].Style.BackColor = dgvDetected.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = dgvDetected.Rows[i].Cells[j].Style.ForeColor = Color.White;
                                 errorMessages[i, j] = "Không xác định được đáp án (Bị tô nhiều hơn 1 đáp án)";
                             }
                         }));
@@ -300,8 +300,8 @@ namespace MCTools
                         {
                             Invoker.InvokeIfRequired(dgvEditing, new MethodInvoker(() =>
                             {
-                                dgvEditing.Rows[i].Cells[j].Style.BackColor = Color.Red;
-                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = Color.White;
+                                dgvEditing.Rows[i].Cells[j].Style.BackColor = dgvDetected.Rows[i].Cells[j].Style.BackColor = Color.Red;
+                                dgvEditing.Rows[i].Cells[j].Style.ForeColor = dgvDetected.Rows[i].Cells[j].Style.ForeColor = Color.White;
 
                                 if (j == 0) errorMessages[i, j] = "Không nhận diện được SBD";
                                 else errorMessages[i, j] = "Không nhận diện được mã đề";
@@ -325,11 +325,12 @@ namespace MCTools
                             {
                                 Invoker.InvokeIfRequired(dgvEditing, new MethodInvoker(() =>
                                 {
-                                    dgvEditing.Rows[j].Cells[0].Style.BackColor = Color.Red;
-                                    dgvEditing.Rows[j].Cells[0].Style.ForeColor = Color.White;
+                                    dgvEditing.Rows[j].Cells[0].Style.BackColor = dgvDetected.Rows[j].Cells[0].Style.BackColor = Color.Red;
+                                    dgvEditing.Rows[j].Cells[0].Style.ForeColor = dgvDetected.Rows[j].Cells[0].Style.ForeColor = Color.White;
 
-                                    dgvEditing.Rows[i].Cells[0].Style.BackColor = Color.Red;
-                                    dgvEditing.Rows[i].Cells[0].Style.ForeColor = Color.White;
+
+                                    dgvEditing.Rows[i].Cells[0].Style.BackColor = dgvDetected.Rows[i].Cells[0].Style.BackColor = Color.Red;
+                                    dgvEditing.Rows[i].Cells[0].Style.ForeColor = dgvDetected.Rows[i].Cells[0].Style.ForeColor = Color.White;
                                     errorMessages[i, 0] = "Số báo danh bị trùng";
                                 }));
                             }

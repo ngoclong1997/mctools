@@ -71,7 +71,7 @@ namespace ServerScan
         /// Use scanner to scan an image (with user selecting the scanner from a dialog).
         /// </summary>
         /// <returns>Scanned images.</returns>
-        public static List<Image> Scan(ScanSettings settings)
+        public static List<Bitmap> Scan(ScanSettings settings)
         {
             ICommonDialog dialog = new CommonDialog();
             Device device = null;
@@ -98,7 +98,7 @@ namespace ServerScan
         /// Use scanner provided scanner id to scan an image.
         /// </summary>
         /// <returns>Scanned images.</returns>
-        public static List<Image> Scan(String scannerId, ScanSettings settings)
+        public static List<Bitmap> Scan(String scannerId, ScanSettings settings)
         {
             // select the correct scanner using the provided scannerId parameter
             DeviceManager manager = new DeviceManager();
@@ -216,7 +216,7 @@ namespace ServerScan
         /// </summary>
         /// <param name="scannerId"></param>
         /// <returns>List of scanned images.</returns>
-        private static List<Image> Acquire(Device device, ScanSettings settings)
+        private static List<Bitmap> Acquire(Device device, ScanSettings settings)
         {
             String description = device.Properties["Name"].get_Value().ToString();
 
@@ -232,9 +232,9 @@ namespace ServerScan
             }
         }
 
-        private static List<Image> AcquireBrother(Device device, ScanSettings settings)
+        private static List<Bitmap> AcquireBrother(Device device, ScanSettings settings)
         {
-            List<Image> images = new List<Image>();
+            List<Bitmap> images = new List<Bitmap>();
             bool hasMorePages = true;
             Item scan = null;
 
@@ -267,15 +267,15 @@ namespace ServerScan
 
                     if (image != null)
                     {
-                        // convert to byte array
-                        Byte[] imageBytes = (byte[])image.FileData.get_BinaryData();
+                        string fileName = Path.GetTempFileName();
+                        File.Delete(fileName);
+                        image.SaveFile(fileName);
+                        image = null;
 
                         // add file to output list
-                        images.Add(Image.FromStream(new MemoryStream(imageBytes)));
-
-                        //Cleanup
-                        image = null;
-                        imageBytes = null;
+                        Bitmap bmp = new Bitmap(fileName);
+                        bmp.SetResolution(200, 200);
+                        images.Add(bmp);
                     }
                     else
                     {
@@ -328,10 +328,10 @@ namespace ServerScan
             return images;
         }
 
-        private static List<Image> AcquireNormal(Device device, ScanSettings settings)
+        private static List<Bitmap> AcquireNormal(Device device, ScanSettings settings)
         {
             DeviceManager manager = new DeviceManager();
-            List<Image> images = new List<Image>();
+            List<Bitmap> images = new List<Bitmap>();
             bool hasMorePages = true;
 
 
@@ -358,7 +358,9 @@ namespace ServerScan
                         image = null;
 
                         // add file to output list
-                        images.Add(Image.FromFile(fileName));
+                        Bitmap bmp = new Bitmap(fileName);
+                        bmp.SetResolution(200, 200);
+                        images.Add(bmp);
                     }
                     else
                     {
