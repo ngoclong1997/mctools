@@ -42,6 +42,8 @@
             this.btnSelectWorkspacePath = new System.Windows.Forms.Button();
             this.jobLoadExamInfo = new System.ComponentModel.BackgroundWorker();
             this.jobLoadSubjectInfo = new System.ComponentModel.BackgroundWorker();
+            this.cbbTemplate = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -95,7 +97,7 @@
             // 
             // btnDone
             // 
-            this.btnDone.Location = new System.Drawing.Point(293, 244);
+            this.btnDone.Location = new System.Drawing.Point(293, 280);
             this.btnDone.Name = "btnDone";
             this.btnDone.Size = new System.Drawing.Size(75, 23);
             this.btnDone.TabIndex = 5;
@@ -105,7 +107,7 @@
             // 
             // btnCancel
             // 
-            this.btnCancel.Location = new System.Drawing.Point(374, 244);
+            this.btnCancel.Location = new System.Drawing.Point(374, 280);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 6;
@@ -164,11 +166,36 @@
             // 
             this.jobLoadSubjectInfo.DoWork += new System.ComponentModel.DoWorkEventHandler(this.jobLoadSubjectInfo_DoWork);
             // 
+            // cbbTemplate
+            // 
+            this.cbbTemplate.FormattingEnabled = true;
+            this.cbbTemplate.Items.AddRange(new object[] {
+            "MC.TEMPLATE45Q",
+            "MC.TEMPLATE60Q",
+            "MC.TEMPLATE80Q",
+            "MC.TEMPLATE100Q"});
+            this.cbbTemplate.Location = new System.Drawing.Point(134, 214);
+            this.cbbTemplate.Name = "cbbTemplate";
+            this.cbbTemplate.Size = new System.Drawing.Size(315, 21);
+            this.cbbTemplate.TabIndex = 12;
+            this.cbbTemplate.SelectedIndexChanged += new System.EventHandler(this.cbbTemplate_SelectedIndexChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(20, 217);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.TabIndex = 11;
+            this.label6.Text = "Chọn mẫu";
+            // 
             // SetupTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(482, 279);
+            this.ClientSize = new System.Drawing.Size(482, 315);
+            this.Controls.Add(this.cbbTemplate);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.btnSelectWorkspacePath);
             this.Controls.Add(this.tb_WorkspacePath);
             this.Controls.Add(this.label5);
@@ -205,5 +232,7 @@
         private System.Windows.Forms.Button btnSelectWorkspacePath;
         private System.ComponentModel.BackgroundWorker jobLoadExamInfo;
         private System.ComponentModel.BackgroundWorker jobLoadSubjectInfo;
+        private System.Windows.Forms.ComboBox cbbTemplate;
+        private System.Windows.Forms.Label label6;
     }
 }

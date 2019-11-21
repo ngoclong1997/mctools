@@ -11,7 +11,7 @@ namespace ServerScan
     class ScanSettings
     {
         public int dpi = 200;
-        public int color = 4; //4 is black-white, gray is 2, color is 1
+        public int color = 2; //4 is black-white, gray is 2, color is 1
         public bool adf = false;
         public bool tryFlatbed = false; //try flatbed if adf fails
     }

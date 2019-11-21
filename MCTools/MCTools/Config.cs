@@ -15,6 +15,7 @@ namespace MCTools
         public const String SCHOOL = "school";
         public const String ROOM = "room";
         public const String OPEN_FOLDER_AFTER_EXPORT = "open_after_export";
+        public const String CURRENT_TEMPLATE_INDEX =  "current_template";
 
         private Dictionary<String, String> list;
         private String filename;

@@ -441,14 +441,14 @@ namespace MCTools
                     drawPoint = new AnswerSheetProcess.Point(1111, 260);
                     drawType = Constant.DRAW_RECT_ON_STUDENT_ID;
                     pbAnswerSheet.Left = -drawPoint.x + 50;
-                    pbAnswerSheet.Top = -drawPoint.y + 200;
+                    pbAnswerSheet.Top = -drawPoint.y + 240;
                 }
                 else if (e.ColumnIndex == 1)
                 {
                     drawPoint = new AnswerSheetProcess.Point(1370, 260);
-                    drawType = Constant.DRAW_RECT_ON_STUDENT_ID;
+                    drawType = Constant.DRAW_RECT_ON_EXAM_ID;
                     pbAnswerSheet.Left = -drawPoint.x + 50;
-                    pbAnswerSheet.Top = -drawPoint.y + 200;
+                    pbAnswerSheet.Top = -drawPoint.y + 240;
                 }
                 else
                 {
@@ -535,11 +535,11 @@ namespace MCTools
                 Rectangle rect;
                 if (drawType == Constant.DRAW_RECT_ON_STUDENT_ID)
                 {
-                    rect = new Rectangle(drawPoint.x, drawPoint.y, 250, 550);
+                    rect = new Rectangle(drawPoint.x, drawPoint.y + 25, 250, 550);
                 }
                 else if (drawType == Constant.DRAW_RECT_ON_EXAM_ID)
                 {
-                    rect = new Rectangle(drawPoint.x, drawPoint.y, 160, 550);
+                    rect = new Rectangle(drawPoint.x-30, drawPoint.y + 25, 160, 550);
                 }
                 else
                 {

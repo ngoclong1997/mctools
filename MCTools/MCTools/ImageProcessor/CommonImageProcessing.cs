@@ -64,7 +64,7 @@ namespace AnswerSheetProcess
         public static Bitmap SmoothImage(Bitmap image)
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(image);
-            CvInvoke.GaussianBlur(img, img, new Size(7, 7), 2, 2);
+            CvInvoke.GaussianBlur(img, img, new Size(1, 1),0, 0);
             return img.ToBitmap();
         }
 
@@ -72,7 +72,7 @@ namespace AnswerSheetProcess
         {
             Image<Bgr, Byte> img = new Image<Bgr, Byte>(image);
             Image<Gray, Byte> grayIMG = img.Convert<Gray, Byte>();
-            CvInvoke.Threshold(grayIMG, grayIMG, 200, 255, Emgu.CV.CvEnum.ThresholdType.Binary);
+            CvInvoke.Threshold(grayIMG, grayIMG, 230, 255, Emgu.CV.CvEnum.ThresholdType.Binary);
             return grayIMG.ToBitmap();
         }
 
@@ -145,7 +145,7 @@ namespace AnswerSheetProcess
             return true;
         }
 
-        public static int CountNumberOfBlackPixelInCircle(Bitmap image, Circle circle)
+        public static int CountNumberOfBlackPixelInCircle(Bitmap image, Circle circle, int range)
         {
             Point src = circle.center;
             var marker = new bool[image.Width, image.Height];
@@ -158,11 +158,14 @@ namespace AnswerSheetProcess
                 foundBlackPoint = false;
                 List<Point> availPs = src.GetAvailableMoves();
                 foreach(Point p in availPs) {
-                    if (IsBlackColor(p, image))
+                    foreach (Point q in p.GetAvailableMoves())
                     {
-                        src = p;
-                        foundBlackPoint = true;
-                        break;
+                        if (IsBlackColor(q, image))
+                        {
+                            src = q;
+                            foundBlackPoint = true;
+                            break;
+                        }
                     }
                 }
             }
@@ -184,7 +187,7 @@ namespace AnswerSheetProcess
 
                 foreach (Point point in availableMoves)
                 {
-                    if (!marker[point.x, point.y] && IsBlackColor(point, image) && point.distanceTo(src) <= circle.radius-5)
+                    if (!marker[point.x, point.y] && IsBlackColor(point, image) && point.distanceTo(src) <= circle.radius+range)
                     {
                         marker[point.x, point.y] = true;
                         stack.Push(point);

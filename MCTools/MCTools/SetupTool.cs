@@ -23,9 +23,10 @@ namespace MCTools
         public SetupTool()
         {
             InitializeComponent();
+            cbbTemplate.SelectedIndex = 0;
             jobLoadExamInfo.RunWorkerAsync();
             loadingDialog = new LoadingDialog("Đang lấy thông tin...");
-            loadingDialog.ShowDialog();   
+            loadingDialog.ShowDialog();
         }
 
         public SetupTool(MainForm parent)
@@ -37,6 +38,16 @@ namespace MCTools
             string path = cfg.Get("current_work_space");
             tb_WorkspacePath.Text = path;
             Globals.currentWorkspace = path;
+            String templateIndex = cfg.Get(Config.CURRENT_TEMPLATE_INDEX);
+            if (templateIndex != null)
+            {
+                cbbTemplate.SelectedIndex = Convert.ToInt32(templateIndex);
+            }
+            else
+            {
+                cbbTemplate.SelectedIndex = 0;
+            }
+            
 
             jobLoadExamInfo.RunWorkerAsync();
             loadingDialog = new LoadingDialog("Đang lấy thông tin...");
@@ -65,6 +76,7 @@ namespace MCTools
                     Globals.subject = cbbSubject.Text.ToString();
                     Globals.subjectId = (int) cbbSubject.SelectedValue;
                     Globals.examId = (int) cbbExam.SelectedValue;
+                    Globals.currentTemplate = TemplateUtils.GetTemplate(cbbTemplate.SelectedIndex);
                     jobLoadDataFromDB.RunWorkerAsync(new Tuple<int, int>((int)cbbExam.SelectedValue, (int)cbbSubject.SelectedValue));
                     loadingDialog = new LoadingDialog("Đang lấy thông tin...");
                     loadingDialog.ShowDialog();
@@ -172,7 +184,6 @@ namespace MCTools
                 parentForm.answers.AddRange(lstAnswers);
 
                 Globals.numberOfQuestion = lstAnswers[0].rightAnswers.Count;
-                Globals.currentTemplate = TemplateUtils.GetTemplate(Globals.numberOfQuestion);
                 
             }
         }
@@ -336,6 +347,13 @@ namespace MCTools
         private void cbbExam_SelectedIndexChanged(object sender, EventArgs e)
         {
             loadSubjectInfo((int)cbbExam.SelectedValue);
+        }
+
+        private void cbbTemplate_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Config cfg = new Config();
+            cfg.Set(Config.CURRENT_TEMPLATE_INDEX, cbbTemplate.SelectedIndex);
+            cfg.Save();
         }
     }
 }

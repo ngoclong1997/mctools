@@ -55,9 +55,9 @@ namespace ServerScan
 
         private void bt_startScan_Click(object sender, EventArgs e)
         {
-            //List<Image> scanResult = Scan.StartScan();
+            //List<Bitmap> scanResult = Scan.StartScan();
             List<Bitmap> scanResult = new List<Bitmap>();
-            string[] filePaths = Directory.GetFiles(@"D:\graduation thesis\templates\Answered", "*.jpg", SearchOption.TopDirectoryOnly);
+            string[] filePaths = Directory.GetFiles(@"D:\graduation thesis\Result\Scanned\Extracted", "*.jpg", SearchOption.TopDirectoryOnly);
             for (int i = 0; i < filePaths.Length; i++)
             {
                 scanResult.Add(new Bitmap(filePaths[i]));
@@ -142,7 +142,12 @@ namespace ServerScan
         private void btnContinue_Click(object sender, EventArgs e)
         {
             List<Bitmap> scanResult = Scan.StartScan();
+            int currentImages = images.Count;
             images.AddRange(scanResult);
+            for (int i = currentImages; i < images.Count; i++)
+            {
+                ListBoxImageScanned.Items.Add("Image " + i);
+            }
         }
 
         private void btnDone_Click(object sender, EventArgs e)

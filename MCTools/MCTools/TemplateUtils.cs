@@ -10,17 +10,17 @@ namespace MCTools
     public class TemplateUtils
     {
 
-        public static int GetTemplate(int nOfQuestion)
+        public static int GetTemplate(int code)
         {
-            switch (nOfQuestion)
+            switch (code)
             {
-                case 45:
+                case 0:
                     return Constant.TEMPLATE_45_QUESTIONS;
-                case 60:
+                case 1:
                     return Constant.TEMPLATE_60_QUESTIONS;
-                case 80:
+                case 2:
                     return Constant.TEMPLATE_80_QUESTIONS;
-                case 100:
+                case 3:
                     return Constant.TEMPLATE_100_QUESTIONS;
                 default:
                     return -1;

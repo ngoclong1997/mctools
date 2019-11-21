@@ -112,11 +112,31 @@ namespace ServerScan.Helper
                 Program.ShowError("Đường dẫn lưu kết quả không được phép ghi");
                 return 0;
             }
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i] = ResizeImage(list[i], 1653, 2338);
+                list[i].SetResolution(200, 200);
+            }
             Logger.Log("Finished scanning " + list.Count + " files");
             DateTime now = DateTime.Now;
             File.WriteAllBytes(Program.config.SavePath + "\\SignedImages_" + now.ToString("ddMMyyyyHHmmss") + ".dat", SigningHelper.signImages(list));
-            //ImageHelper.createTif(list, Program.config.SavePath + "\\" + now.ToString("yy_MM_dd-H_mm_ss") + ".tif");
+            ImageHelper.createTif(list, Program.config.SavePath + "\\" + now.ToString("yy_MM_dd-H_mm_ss") + ".tif");
             return 1;
+        }
+
+        private static Bitmap ResizeImage(Bitmap image, int newWidth, int newHeight)
+        {
+            //Image<Bgr, Byte> img = new Image<Bgr, Byte>(image);
+            //CvInvoke.Resize(img, img, new Size(newWidth, newHeight), 0, 0, Emgu.CV.CvEnum.Inter.Linear);
+            //return img.ToBitmap();
+
+            Bitmap b = new Bitmap(newWidth, newHeight);
+            Graphics g = Graphics.FromImage((Image)b);
+
+            g.DrawImage(image, 0, 0, newWidth, newHeight);
+            g.Dispose();
+
+            return b;
         }
     }
 }

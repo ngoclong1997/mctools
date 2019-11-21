@@ -202,10 +202,10 @@ namespace ServerScan
                         SetProperty(prop, 0);
                         break;
                     case 6151: //horizontal exent 
-                        SetProperty(prop, (int) 8.29f * settings.dpi);
+                        SetProperty(prop, (int) 2480);
                         break;
                     case 6152: //vertical extent 
-                        SetProperty(prop, (int)11.69f * settings.dpi);
+                        SetProperty(prop, (int) 3507);
                         break;
                 }
             }
@@ -231,7 +231,6 @@ namespace ServerScan
                 return AcquireNormal(device, settings);
             }
         }
-
         private static List<Bitmap> AcquireBrother(Device device, ScanSettings settings)
         {
             List<Bitmap> images = new List<Bitmap>();
@@ -263,19 +262,20 @@ namespace ServerScan
                     SetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_PAGES, 1);
 
                     //Scan image
-                    ImageFile image = (ImageFile) wiaCommonDialog.ShowTransfer(scan, wiaFormatBMP, false);
+                    ImageFile image = (ImageFile)wiaCommonDialog.ShowTransfer(scan, wiaFormatBMP, false);
 
                     if (image != null)
                     {
-                        string fileName = Path.GetTempFileName();
-                        File.Delete(fileName);
-                        image.SaveFile(fileName);
-                        image = null;
+                        // convert to byte array
+                        Byte[] imageBytes = (byte[])image.FileData.get_BinaryData();
 
                         // add file to output list
-                        Bitmap bmp = new Bitmap(fileName);
-                        bmp.SetResolution(200, 200);
+                        Bitmap bmp = new Bitmap(Image.FromStream(new MemoryStream(imageBytes)));
                         images.Add(bmp);
+
+                        //Cleanup
+                        image = null;
+                        imageBytes = null;
                     }
                     else
                     {
@@ -301,18 +301,11 @@ namespace ServerScan
                     {
                         case WIA_ERRORS.WIA_ERROR_PAPER_EMPTY:
                             Logger.Log("Paper feed empty");
-                            if (images.Count == 0 && settings.adf && settings.tryFlatbed)
-                            {   //if no page scanned try flatbed instead
-                                SetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_DOCUMENT_HANDLING_SELECT, WIA_DPS_DOCUMENT_HANDLING_SELECT.FLATBED);
-                                settings.adf = false;
-                            }
-                            else
-                                Program.ShowError("Đã quét hết giấy trong bộ thu giấy tự động");
-                                hasMorePages = false;
+                            hasMorePages = false;
                             break;
 
                         case WIA_ERRORS.WIA_ERROR_PAPER_JAM:
-                            Program.ShowError("Vui lòng kiểm tra lại máy scan, có thể giấy đang bị kẹt!");
+                            Program.ShowError("Paper jam inside the scanner feeder");
                             break;
 
                         case WIA_ERRORS.WIA_ERROR_BUSY:
@@ -320,6 +313,8 @@ namespace ServerScan
                             System.Threading.Thread.Sleep(2000);
                             break;
 
+                        default:
+                            break;
                     }
                 }
             }
@@ -333,34 +328,43 @@ namespace ServerScan
             DeviceManager manager = new DeviceManager();
             List<Bitmap> images = new List<Bitmap>();
             bool hasMorePages = true;
+            Item scan = null;
 
-
-            
-
+            //Acquisition iteration
+            ICommonDialog wiaCommonDialog = new CommonDialog();
             while (hasMorePages)
             {
+                try
+                {   //Looks like these need to be done for each iteration
+                    SetDeviceHandling(ref device, settings);
+                    scan = device.Items[1] as Item;
+                    SetDeviceProperties(ref device, settings);
+                }
+                catch (Exception)
+                {
+                    throw new Exception("Cannot connect to scanner, please check your device and try again.");
+                }
+
                 Logger.Log("DEBUG: document handling " + GetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_DOCUMENT_HANDLING_SELECT));
                 Logger.Log("DEBUG: feeder status " + GetDeviceIntProperty(ref device, WIA_PROPERTIES.WIA_DPS_DOCUMENT_HANDLING_STATUS));
-                
+
                 try
                 {
-                    SetDeviceHandling(ref device, settings);
-                    SetDeviceProperties(ref device, settings);
-                    Item item = device.Items[1] as Item;
                     //Scan image
-                    ImageFile image = item.Transfer(wiaFormatBMP);
+                    ImageFile image = (ImageFile) scan.Transfer(wiaFormatBMP);
 
                     if (image != null)
                     {
-                        string fileName = Path.GetTempFileName();
-                        File.Delete(fileName);
-                        image.SaveFile(fileName);
-                        image = null;
+                        // convert to byte array
+                        Byte[] imageBytes = (byte[])image.FileData.get_BinaryData();
 
                         // add file to output list
-                        Bitmap bmp = new Bitmap(fileName);
-                        bmp.SetResolution(200, 200);
+                        Bitmap bmp = new Bitmap(Image.FromStream(new MemoryStream(imageBytes)));
                         images.Add(bmp);
+
+                        //Cleanup
+                        image = null;
+                        imageBytes = null;
                     }
                     else
                     {
@@ -379,9 +383,7 @@ namespace ServerScan
 
                             Logger.Log("ADF has more pages: " + (hasMorePages ? "Yes" : "No"));
                         }
-                        catch {
-                            Logger.Log("BLABLA");
-                        }
+                        catch { }
                     }
                 }
                 catch (System.Runtime.InteropServices.COMException ex)
@@ -405,6 +407,9 @@ namespace ServerScan
                         case WIA_ERRORS.WIA_ERROR_BUSY:
                             Logger.Log("Device is busy, retrying in 2s...");
                             System.Threading.Thread.Sleep(2000);
+                            break;
+
+                        default:
                             break;
                     }
                 }

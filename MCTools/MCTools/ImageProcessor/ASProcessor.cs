@@ -74,22 +74,25 @@ namespace AnswerSheetProcess
                 return bottomRightRect;
             }
         }
+        static int i = 0;
 
         private static Bitmap PreProcess(Bitmap img)
         {
+            i++;
             //img.Save(@"D:\hello.jpg");
             img = CommonImageProcessing.SmoothImage(img);
             //img.Save(@"D:\hello_smooth.jpg");
             img = CommonImageProcessing.ConvertToBinary(img);
-            //img.Save(@"D:\hello_smooth_black1.jpg");
+            img.Save(@"D:\hello_smooth_black1.jpg");
             Rect topRightRect = DetectTopRightFlagRect(img);
             Rect bottomRightRect = DetectBottomRightCorner(img);
             double angle = calculateRotateAngle(topRightRect, bottomRightRect);
-            if (topRightRect.bottomRight.x - bottomRightRect.bottomRight.x > Constant.ACCEPTABLE_DIFF_BETWEEN_TOP_RIGHT_FLG_RECT_AND_BOTTOM_RIGHT_FLG_RECT)
+            if (Math.Abs(topRightRect.bottomRight.x - bottomRightRect.bottomRight.x) > Constant.ACCEPTABLE_DIFF_BETWEEN_TOP_RIGHT_FLG_RECT_AND_BOTTOM_RIGHT_FLG_RECT)
             {
-                img = CommonImageProcessing.RotateImage(img, angle);
+                img = CommonImageProcessing.RotateImage(img, angle-90);
             }
-            //img.Save(@"D:\hello_HIHIH.jpg");,  lloihfoiewiofjewofowiejojofjepo
+            img.Save(@"D:\" + i + ".jpg");
+            
             return img;
         }
 
@@ -97,8 +100,8 @@ namespace AnswerSheetProcess
         {
             Point upper = topRightRect.GetCenterPoint();
             Point lower = bottomRightRect.GetCenterPoint();
-            double angle = Math.Atan2(upper.y - lower.y, upper.x - lower.x);
-            return 90.0 - (180.0 * angle) / ((double)3.1415);
+            double angle = Math.Atan2(lower.y - upper.y, upper.x - lower.x);
+            return (180.0 * angle) / ((double)3.1415);
         }
 
         private static Tuple<String, List<Circle>> DetectStudentCode(Bitmap img, List<Rect> horizontalFlgRects, List<Rect> verticalFlgRects)
@@ -118,8 +121,8 @@ namespace AnswerSheetProcess
                     Point c1 = r1.GetCenterPoint();
                     Point c2 = r2.GetCenterPoint();
                     c = new Circle(new Point(c1.x, c2.y), Constant.DEFAULT_CIRCLE_RADIUS);
-                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c);
-                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_AS_CHOOSEN)
+                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c, -5);
+                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_INFO_AS_CHOOSEN)
                     {
                         if (found)
                         {
@@ -161,8 +164,8 @@ namespace AnswerSheetProcess
                     Point c1 = r1.GetCenterPoint();
                     Point c2 = r2.GetCenterPoint();
                     c = new Circle(new Point(c1.x, c2.y), Constant.DEFAULT_CIRCLE_RADIUS);
-                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c);
-                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_AS_CHOOSEN)
+                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c, -5);
+                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_INFO_AS_CHOOSEN)
                     {
                         if (found)
                         {
@@ -214,6 +217,7 @@ namespace AnswerSheetProcess
                 currentQuestion = colStartQuestion;
                 for (int j = 11; j < nVerticalRect - 1; j++)
                 {
+                    if (currentQuestion > numberOfQuestion) { break; }
                     Rect r1 = horizontalFlgRects[i];
                     Rect r2 = verticalFlgRects[j];
                     Point c1 = r1.GetCenterPoint();
@@ -223,8 +227,8 @@ namespace AnswerSheetProcess
                         borderPoints[currentQuestion] = new Point(c1.x, c2.y);
                     }
                     c = new Circle(new Point(c1.x, c2.y), Constant.DEFAULT_CIRCLE_RADIUS);
-                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c);
-                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_AS_CHOOSEN)
+                    int nOfBlackInCircle = CommonImageProcessing.CountNumberOfBlackPixelInCircle(img, c, 8);
+                    if (nOfBlackInCircle >= Constant.NUMBER_OF_CIRCLE_BLACK_PIXEL_TO_BE_CONSIDERED_ANSWER_AS_CHOOSEN)
                     {
                         if (answers[currentQuestion] == '*')
                         {
@@ -396,30 +400,30 @@ namespace AnswerSheetProcess
             }
 
             processedAS.answers = studentAnswers;
-            
-            List<Circle> tmp;
-            tmp = studentCodeResult.Item2;
-            Image<Bgr, Byte> outputImg = new Image<Bgr, Byte>(orgImg);
-            foreach (Circle circle in tmp)
-            {
-                CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius - 2, new MCvScalar(0, 255, 0), 2);
-            }
 
-            tmp = examCodeResult.Item2;
+            //List<Circle> tmp;
+            //tmp = studentCodeResult.Item2;
+            //Image<Bgr, Byte> outputImg = new Image<Bgr, Byte>(img);
+            //foreach (Circle circle in tmp)
+            //{
+            //    CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius - 2, new MCvScalar(0, 255, 0), 2);
+            //}
 
-            foreach (Circle circle in tmp)
-            {
-                CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius - 2, new MCvScalar(0, 255, 0), 2);
-            }
+            //tmp = examCodeResult.Item2;
 
-            tmp = studentAnswersResult.Item2;
+            //foreach (Circle circle in tmp)
+            //{
+            //    CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius - 2, new MCvScalar(0, 255, 0), 2);
+            //}
 
-            foreach (Circle circle in tmp)
-            {
-                CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius-2, new MCvScalar(0, 255, 0), 2);
-            }
+            //tmp = studentAnswersResult.Item2;
 
-            processedAS.processedAnswerSheetImage = outputImg.ToBitmap();
+            //foreach (Circle circle in tmp)
+            //{
+            //    CvInvoke.Circle(outputImg, new System.Drawing.Point(circle.center.x, circle.center.y), circle.radius-2, new MCvScalar(0, 255, 0), 2);
+            //}
+
+            processedAS.processedAnswerSheetImage = orgImg;
             
             return processedAS;
         } 
